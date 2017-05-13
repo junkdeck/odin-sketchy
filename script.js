@@ -21,26 +21,28 @@ function createGrid(gridSize, boxSize){
 
 var boxSize = setBoxSize(gridSize);
 createGrid(gridSize, boxSize);
+drawSquare();
 
 $('.clear-btn').on('click',function(){
-    gridSize = prompt();
+    gridSize = prompt("Enter new grid size ( side length )");
     $('.drawboard').empty();
     boxSize = setBoxSize(gridSize);
     createGrid(gridSize,boxSize);
+    drawSquare();
 });
 
-$('.grid-square').on('mouseenter',function(){
-
-    console.log("dinker");
-
-    var randR = Math.floor(Math.random() * (255 - 0)) + 0;
-    var randG = Math.floor(Math.random() * (255 - 0)) + 0;
-    var randB = Math.floor(Math.random() * (255 - 0)) + 0;
-    if($(this).data('active') === 0){
-        $(this).css('background','rgb('+randR+','+randG+','+randB+')');
-        $(this).data('active',1);
-        $("<div class='grid-overlay'></div>").appendTo($(this))
-    }else if($(this).data('active') === 1){
-        $(this).children(".grid-overlay").css('opacity',"+=.1");
-    }
-});
+function drawSquare(){
+    //necessary to re-call, otherwise the bling selector won't "see" newly generated grids
+    $('.drawboard .grid-square').on('mouseenter',function(){
+        var randR = Math.floor(Math.random() * (255 - 0)) + 0;
+        var randG = Math.floor(Math.random() * (255 - 0)) + 0;
+        var randB = Math.floor(Math.random() * (255 - 0)) + 0;
+        if($(this).data('active') === 0){
+            $(this).css('background','rgb('+randR+','+randG+','+randB+')');
+            $(this).data('active',1);
+            $("<div class='grid-overlay'></div>").appendTo($(this))
+        }else if($(this).data('active') === 1){
+            $(this).children(".grid-overlay").css('opacity',"+=.1");
+        }
+    });
+}
